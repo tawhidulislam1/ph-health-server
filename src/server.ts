@@ -1,12 +1,10 @@
-import express, { Application, Request, Response } from "express";
 import app from "./app";
-
-const port = 5000; // The port your express server will be running on.
+import { envVars } from "./config/env";
 
 const bootstrap = () => {
   try {
-    app.listen(5000, () => {
-      console.log(`server is running on 5000`);
+    app.listen(envVars.PORT, () => {
+      console.log(`server is running on ${envVars.PORT}`);
     });
   } catch (error) {
     console.log("Failed To Start Server");
