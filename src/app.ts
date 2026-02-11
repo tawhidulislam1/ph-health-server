@@ -1,7 +1,10 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import { prisma } from "./app/lib/prisma";
 
 import { IndexRoutes } from "./app/routes";
+import { success } from "better-auth";
+import { globarErrorHandler } from "./app/middlewere/globerErrorHandler";
+import { notFound } from "./app/middlewere/notFound";
 
 const app: Application = express();
 // Enable URL-encoded form data parsing
@@ -26,4 +29,6 @@ app.get("/", async (req: Request, res: Response) => {
   });
 });
 
+app.use(globarErrorHandler);
+app.use(notFound);
 export default app;
