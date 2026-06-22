@@ -6,7 +6,7 @@ import { prisma } from "../../lib/prisma";
 import { ICreatedDoctorPayload } from "./user.interface";
 import status from "http-status";
 
-const createUser = async (payload: ICreatedDoctorPayload) => {
+const createDoctor = async (payload: ICreatedDoctorPayload) => {
   const Specialities: Speciality[] = [];
   for (const SpecialityId of payload.specialities) {
     const speciality = await prisma.speciality.findUnique({
@@ -114,5 +114,5 @@ const createUser = async (payload: ICreatedDoctorPayload) => {
 };
 
 export const DoctorService = {
-  createUser,
+  createDoctor,
 };

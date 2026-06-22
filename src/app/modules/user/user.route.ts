@@ -9,7 +9,7 @@ const router = Router();
 router.post(
   "/create-doctor",
   validateRequest(createDoctorZodSchema),
-  UserController.createUser,
+  UserController.createDoctor,
 );
 
 export const UserRouter = router;
