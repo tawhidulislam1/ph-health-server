@@ -1,8 +1,7 @@
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import { prisma } from "./app/lib/prisma";
 
 import { IndexRoutes } from "./app/routes";
-import { success } from "better-auth";
 import { globarErrorHandler } from "./app/middlewere/globerErrorHandler";
 import { notFound } from "./app/middlewere/notFound";
 import cookieParser from "cookie-parser";
@@ -13,8 +12,7 @@ import cors from "cors";
 import { envVars } from "./config/env";
 import qs from "qs";
 import { PaymentController } from "./app/modules/payment/payment.controller";
-import cron from "node-cron";
-import { AppointmentService } from "./app/modules/appointment/appointment.service";
+
 const app: Application = express();
 
 app.set("query parser", (string: string) => qs.parse(string));
@@ -36,43 +34,25 @@ app.use(
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    // allowHeaders: ["Content-Type", "Authorization"],
   }),
 );
+
 app.use("/api/auth", toNodeHandler(auth));
 
-// Enable URL-encoded form data parsing
 app.use(express.urlencoded({ extended: true }));
-
-// Middleware to parse JSON bodies
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-cron.schedule("*/25 * * * *", async () => {
-  try {
-    console.log("Running cron job to cancel unpaid appointments... up");
-    await AppointmentService.cancelUnpaidAppointments();
-  } catch (error: any) {
-    console.error("Error occurred while canceling unpaid appointments:", error);
-  }
-});
 app.use("/api/v1", IndexRoutes);
 
-// Basic route
-app.get("/", async (req: Request, res: Response) => {
-  const specialty = await prisma.speciality.create({
-    data: {
-      title: "updated",
-    },
-  });
-  res.status(201).json({
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({
     success: true,
-    message: "Api is Working",
-    data: specialty,
+    message: "API is running",
   });
 });
 
-app.use(globarErrorHandler);
 app.use(notFound);
+app.use(globarErrorHandler);
+
 export default app;

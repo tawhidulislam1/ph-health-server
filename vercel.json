@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "builds": [{
+        "src": "api/index.ts",
+        "use": "@vercel/node",
+        "config": {
+            "includeFiles": ["src/app/templates/**"]
+        }
+    }],
+    "routes": [{
+        "src": "/(.*)",
+        "dest": "api/index.ts"
+    }],
+    "crons": [{
+        "path": "/api/v1/cron/cancel-unpaid-appointments",
+        "schedule": "*/25 * * * *"
+    }]
+}
