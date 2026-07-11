@@ -1,10 +1,10 @@
 import app from "../src/app";
 import { seedSuperAdmin } from "../src/app/utils/seed";
-
+import type { Request, Response } from "express";
 
 let isSeeded = false;
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: Request, res: Response) {
   if (!isSeeded) {
     try {
       await seedSuperAdmin();
@@ -14,5 +14,5 @@ export default async function handler(req: any, res: any) {
     }
   }
 
-  return app(req, res);
+  return (app as unknown as (req: Request, res: Response) => void)(req, res);
 }
