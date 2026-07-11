@@ -10,9 +10,5 @@
     "routes": [{
         "src": "/(.*)",
         "dest": "api/index.ts"
-    }],
-    "crons": [{
-        "path": "/api/v1/cron/cancel-unpaid-appointments",
-        "schedule": "*/25 * * * *"
     }]
 }

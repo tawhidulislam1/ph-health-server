@@ -15,7 +15,7 @@ interface EnvConfig {
   ACCESS_TOKEN_EXPIRES_IN: string;
   REFRESH_TOKEN_EXPIRES_IN: string;
   BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN: string;
-
+  CRON_SECRET: string;
   BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: string;
   EMAIL_SENDER: {
     SMTP_HOST: string;
@@ -67,6 +67,7 @@ const loadEnvVariables = (): EnvConfig => {
     "STRIPE_WEBHOOK_SECRET",
     "SUPER_ADMIN_EMAIL",
     "SUPER_ADMIN_PASSWORD",
+    "CRON_SECRET",
   ];
   requireEnvVariable.forEach((variable) => {
     if (!process.env[variable]) {
@@ -93,6 +94,7 @@ const loadEnvVariables = (): EnvConfig => {
       .BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN as string,
     BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: process.env
       .BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE as string,
+    CRON_SECRET: process.env.CRON_SECRET as string,
     EMAIL_SENDER: {
       SMTP_HOST: process.env.EMAIL_SENDER_SMTP_HOST as string,
       SMTP_PORT: process.env.EMAIL_SENDER_SMTP_PORT as string,
