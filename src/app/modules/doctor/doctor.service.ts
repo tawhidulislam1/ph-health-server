@@ -97,7 +97,7 @@ const getDoctorById = async (id: string) => {
 const updateDoctor = async (id: string, payload: IUpdateDoctorPayload) => {
   const isDoctorExist = await prisma.doctor.findUnique({
     where: {
-      id,
+      userId: id,
     },
   });
 

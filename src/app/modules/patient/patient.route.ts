@@ -17,7 +17,7 @@ router.get(
 
 router.get(
   "/:id",
-  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN , Role.PATIENT),
   PatientController.getPatientById,
 );
 

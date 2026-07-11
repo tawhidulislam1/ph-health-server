@@ -243,6 +243,7 @@ const getMySingleAppointment = async (
       include: {
         patient: true,
         schedule: true,
+        doctor: true,
       },
     });
   }
@@ -250,7 +251,9 @@ const getMySingleAppointment = async (
   if (!appointment) {
     throw new AppError(status.NOT_FOUND, "Appointment not found");
   }
-
+  console.log("User:", user);
+  console.log("Doctor:", doctorData);
+  console.log("Appointment ID:", appointmentId);
   return appointment;
 };
 

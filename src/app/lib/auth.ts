@@ -16,7 +16,7 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    requireEmailVerification: false,
   },
   socialProviders: {
     google: {
@@ -35,11 +35,11 @@ export const auth = betterAuth({
       },
     },
   },
-  emailVerification: {
-    sendOnSignUp: true,
-    sendOnSignIn: true,
-    autoSignInAfterVerification: true,
-  },
+  // emailVerification: {
+  //   sendOnSignUp: true,
+  //   sendOnSignIn: false,
+  //   autoSignInAfterVerification: true,
+  // },
   user: {
     additionalFields: {
       role: {

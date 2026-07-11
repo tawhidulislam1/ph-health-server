@@ -287,9 +287,6 @@ const forgetPassword = async (email: string) => {
   if (!isUserExist) {
     throw new AppError(status.NOT_FOUND, "User not found");
   }
-  if (!isUserExist.emailVerified) {
-    throw new AppError(status.BAD_REQUEST, "Email is not verified");
-  }
   if (isUserExist.isDeleted && isUserExist.status === UserStatus.DELETED) {
     throw new AppError(status.BAD_REQUEST, "User not Found ");
   }
@@ -311,9 +308,6 @@ const resetPassword = async (
   });
   if (!isUserExist) {
     throw new AppError(status.NOT_FOUND, "User not found");
-  }
-  if (!isUserExist.emailVerified) {
-    throw new AppError(status.BAD_REQUEST, "Email is not verified");
   }
   if (isUserExist.isDeleted && isUserExist.status === UserStatus.DELETED) {
     throw new AppError(status.BAD_REQUEST, "User not Found ");

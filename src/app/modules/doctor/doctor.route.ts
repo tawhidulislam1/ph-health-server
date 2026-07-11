@@ -14,18 +14,18 @@ router.get(
 );
 router.get(
   "/:id",
-  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.DOCTOR),
   DoctorController.getDoctorById,
 );
 router.patch(
   "/:id",
-  checkAuth(Role.ADMIN, Role.SUPER_ADMIN , Role.DOCTOR),
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.DOCTOR),
   validateRequest(updateDoctorZodSchema),
   DoctorController.updateDoctor,
 );
 router.delete(
   "/:id",
-  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.DOCTOR),
   DoctorController.deleteDoctor,
 );
 
