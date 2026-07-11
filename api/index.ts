@@ -1,5 +1,5 @@
-import app from "../app";
-import { seedSuperAdmin } from "../app/utils/seed";
+import app from "../src/app";
+import { seedSuperAdmin } from "../src/app/utils/seed";
 
 
 let isSeeded = false;
