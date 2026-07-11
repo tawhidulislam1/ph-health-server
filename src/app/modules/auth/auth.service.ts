@@ -102,6 +102,10 @@ const loginUser = async (payload: IloginUserPayload) => {
 };
 
 const getMe = async (user: IRequestUser) => {
+  if (!user) {
+    throw new AppError(status.UNAUTHORIZED, "Unauthorized");
+  }
+
   const isUserExist = await prisma.user.findUnique({
     where: {
       id: user.userId,

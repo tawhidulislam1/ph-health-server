@@ -11,6 +11,7 @@ import { ReviewRoutes } from "../modules/review/review.route";
 import { PrescriptionRoutes } from "../modules/prescription/prescription.route";
 import { StatsRoutes } from "../modules/stats/stats.route";
 import { PaymentRoutes } from "../modules/payment/payment.router";
+import { AdminRoutes } from "../modules/admin/admin.route";
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.use("/specialties", SpecialityRoutes);
 router.use("/users", UserRouter);
 router.use("/patients", PatientRoutes);
 router.use("/doctors", DoctorRouter);
+router.use("/admin", AdminRoutes);
 router.use("/schedules", scheduleRoutes);
 router.use("/doctor-schedules", DoctorScheduleRoutes);
 router.use("/appointments", AppointmentRoutes);

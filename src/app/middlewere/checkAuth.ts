@@ -91,12 +91,21 @@ export const checkAuth =
         accessToken,
         envVars.ACCESS_TOKEN_SECRET,
       );
+
       if (!verifiedToken.success) {
         throw new AppError(
           status.UNAUTHORIZED,
-          "Unauthorized Access ! no access token provided",
+          "Unauthorized Access! Invalid access token",
         );
       }
+
+      const payload = verifiedToken.data;
+
+      req.user = {
+        userId: payload?.userId,
+        role: payload?.role,
+        email: payload?.email,
+      };
 
       next();
     } catch (error) {
