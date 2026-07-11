@@ -231,7 +231,7 @@ const changeUserRole = async (
       id: userId,
     },
     data: {
-      Role: role,
+      role: role as any,
     },
   });
 
