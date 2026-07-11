@@ -62,13 +62,20 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getNewToken = catchAsync(async (req: Request, res: Response) => {
-  const refreshToken = req.cookies.refreshToken;
-  const sessionToken = req.cookies["better-auth.session_token"];
-  console.log(sessionToken);
+  const refreshToken =
+    req.cookies.refreshToken ||
+    req.body.refreshToken ||
+    (req.headers["x-refresh-token"] as string);
+  const sessionToken =
+    req.cookies["better-auth.session_token"] ||
+    req.body.sessionToken ||
+    req.body["better-auth.session_token"] ||
+    (req.headers["x-session-token"] as string);
+
   if (!refreshToken || !sessionToken) {
     throw new AppError(
       status.BAD_REQUEST,
-      "Refresh token and session token are requireds",
+      "Refresh token and session token are required",
     );
   }
   const result = await authService.getNewToken(refreshToken, sessionToken);
