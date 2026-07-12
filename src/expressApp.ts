@@ -6,12 +6,13 @@ import { globarErrorHandler } from "./app/middlewere/globerErrorHandler";
 import { notFound } from "./app/middlewere/notFound";
 import cookieParser from "cookie-parser";
 import { toNodeHandler } from "better-auth/node";
-import { auth } from "./app/lib/auth";
+
 import path from "path";
 import cors from "cors";
 import { envVars } from "./config/env";
 import qs from "qs";
 import { PaymentController } from "./app/modules/payment/payment.controller";
+import { dynamicImport, getAuth } from "./app/lib/auth";
 
 const app: Application = express();
 
@@ -37,7 +38,18 @@ app.use(
   }),
 );
 
-app.use("/api/auth", toNodeHandler(auth));
+app.use("/api/auth", async (req, res, next) => {
+  try {
+    const { toNodeHandler } =
+      await dynamicImport<typeof import("better-auth/node")>(
+        "better-auth/node",
+      );
+    const auth = await getAuth();
+    return toNodeHandler(auth)(req, res);
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

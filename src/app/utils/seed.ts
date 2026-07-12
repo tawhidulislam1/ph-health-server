@@ -1,6 +1,7 @@
 import { envVars } from "../../config/env";
 import { Role } from "../../generated/prisma/enums";
-import { auth } from "../lib/auth";
+import { getAuth } from "../lib/auth";
+
 import { prisma } from "../lib/prisma";
 
 export const seedSuperAdmin = async () => {
@@ -14,6 +15,7 @@ export const seedSuperAdmin = async () => {
       console.log("Super admin already exists. Skipping seeding super admin.");
       return;
     }
+    const auth = await getAuth();
     const superAdminUser = await auth.api.signUpEmail({
       body: {
         email: envVars.SUPER_ADMIN_EMAIL,

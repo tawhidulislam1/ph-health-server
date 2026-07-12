@@ -66,7 +66,7 @@ const getAllDoctors = async (query: IQueryParams) => {
 const getDoctorById = async (id: string) => {
   const doctor = await prisma.doctor.findUnique({
     where: {
-      id,
+      userId: id,
       isDeleted: false,
     },
     include: {
@@ -111,7 +111,7 @@ const updateDoctor = async (id: string, payload: IUpdateDoctorPayload) => {
     if (doctorData) {
       await tx.doctor.update({
         where: {
-          id,
+          userId: id,
         },
         data: {
           ...doctorData,

@@ -7,7 +7,7 @@ import { tokenUtils } from "../../utils/token";
 import AppError from "../../errorHelper/AppError";
 import { CookieUtils } from "../../utils/cookie";
 import { envVars } from "../../../config/env";
-import { auth } from "../../lib/auth";
+import { getAuth } from "../../lib/auth";
 
 const resgisterPatient = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body;
@@ -187,6 +187,7 @@ const googleLoginSuccess = catchAsync(async (req: Request, res: Response) => {
   if (!sessionToken) {
     return res.redirect(`${envVars.FRONTEND_URL}/login?error=oauth_failed`);
   }
+  const auth = await getAuth();
   const session = await auth.api.getSession({
     headers: {
       Cookie: `better-auth.session_token=${sessionToken}`,

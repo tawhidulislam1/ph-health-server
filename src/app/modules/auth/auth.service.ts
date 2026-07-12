@@ -1,7 +1,7 @@
 import status from "http-status";
 import { Role, User, UserStatus } from "../../../generated/prisma/client";
 import AppError from "../../errorHelper/AppError";
-import { auth } from "../../lib/auth";
+import { getAuth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import { tokenUtils } from "../../utils/token";
 import { IRequestUser } from "../../interfaces/requestUser.interface";
@@ -15,6 +15,7 @@ import {
 
 const resgisterPatient = async (payload: IregisterPatientPayload) => {
   const { name, email, password } = payload;
+  const auth = await getAuth();
   const data = await auth.api.signUpEmail({
     body: {
       name,
@@ -67,6 +68,7 @@ const resgisterPatient = async (payload: IregisterPatientPayload) => {
 
 const loginUser = async (payload: IloginUserPayload) => {
   const { email, password } = payload;
+  const auth = await getAuth();
   const data = await auth.api.signInEmail({
     body: {
       email,
@@ -195,6 +197,7 @@ const changePassword = async (
   payload: IChangePasswordPayload,
   sessionToken: string,
 ) => {
+  const auth = await getAuth();
   const session = await auth.api.getSession({
     headers: new Headers({
       Authorization: `Bearer ${sessionToken}`,
@@ -252,6 +255,7 @@ const changePassword = async (
 };
 
 const logoutUser = async (sessionToken: string) => {
+  const auth = await getAuth();
   const result = await auth.api.signOut({
     headers: new Headers({ Authorization: `Bearer ${sessionToken}` }),
   });
@@ -259,6 +263,7 @@ const logoutUser = async (sessionToken: string) => {
 };
 
 const verifyEmail = async (email: string, otp: string) => {
+  const auth = await getAuth();
   const result = await auth.api.verifyEmailOTP({
     body: {
       email,
@@ -290,6 +295,7 @@ const forgetPassword = async (email: string) => {
   if (isUserExist.isDeleted && isUserExist.status === UserStatus.DELETED) {
     throw new AppError(status.BAD_REQUEST, "User not Found ");
   }
+  const auth = await getAuth();
   await auth.api.requestPasswordResetEmailOTP({
     body: {
       email,
@@ -312,6 +318,7 @@ const resetPassword = async (
   if (isUserExist.isDeleted && isUserExist.status === UserStatus.DELETED) {
     throw new AppError(status.BAD_REQUEST, "User not Found ");
   }
+  const auth = await getAuth();
   await auth.api.resetPasswordEmailOTP({
     body: {
       email,

@@ -1,8 +1,7 @@
 import { notFound } from "./../../middlewere/notFound";
 import { Role, Speciality } from "../../../generated/prisma/client";
 import AppError from "../../errorHelper/AppError";
-import { auth } from "../../lib/auth";
-import { prisma } from "../../lib/prisma";
+import { getAuth } from "../../lib/auth";import { prisma } from "../../lib/prisma";
 import { ICreatedDoctorPayload } from "./user.interface";
 import status from "http-status";
 
@@ -31,6 +30,7 @@ const createDoctor = async (payload: ICreatedDoctorPayload) => {
   if (userExists) {
     throw new AppError(status.CONFLICT, "User With This Email Already Exists");
   }
+  const auth = await getAuth();
   const userData = await auth.api.signUpEmail({
     body: {
       email: payload.doctor.email,

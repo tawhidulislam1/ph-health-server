@@ -6,7 +6,11 @@ import { sendEmail } from "../../utils/email";
 import { uploadFileToCloudinary } from "../../../config/cloudinary.config";
 import { generateInvoicePdf } from "./payment.utils";
 
-const handlerStripeWebhookEvent = async (event: Stripe.Event) => {
+type StripeEvent = Awaited<
+  ReturnType<InstanceType<typeof Stripe>["webhooks"]["constructEvent"]>
+>;
+
+const handlerStripeWebhookEvent = async (event: StripeEvent) => {
   const existingPayment = await prisma.payment.findFirst({
     where: {
       stripeEventId: event.id,

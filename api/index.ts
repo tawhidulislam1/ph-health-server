@@ -1,18 +1,16 @@
-import app from "../src/app";
+import { Request, Response } from "express";
+import app from "../src/expressApp";
 import { seedSuperAdmin } from "../src/app/utils/seed";
-import type { Request, Response } from "express";
 
-let isSeeded = false;
+let seedPromise: Promise<void> | null = null;
 
 export default async function handler(req: Request, res: Response) {
-  if (!isSeeded) {
-    try {
-      await seedSuperAdmin();
-      isSeeded = true;
-    } catch (error) {
-      console.log("Seed failed:", error);
-    }
+  if (!seedPromise) {
+    seedPromise = seedSuperAdmin().catch((err) => {
+      console.log("Seed failed:", err);
+      seedPromise = null; // allow retry on next cold start if it failed
+    });
   }
-
-  return (app as unknown as (req: Request, res: Response) => void)(req, res);
+  await seedPromise;
+  return app(req as Request, res as Response);
 }
